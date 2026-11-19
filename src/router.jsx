@@ -10,7 +10,7 @@ export function getRouter() {
 
   return createRouter({
     routeTree,
-    basepath: "/AllevandoSmartBreeding",
+    basepath: "/",
     context: { queryClient },
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
