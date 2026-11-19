@@ -1,5 +1,5 @@
 import { createRouter } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { routeTree } from "./routeTree.gen.ts";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
 import { NotFound } from "@/components/NotFound";
 import { createQueryClient } from "@/lib/query-client";
