@@ -1,0 +1,59 @@
+{
+  "name": "SiteContent",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Chiave univoca del contenuto"
+    },
+    "label": {
+      "type": "string",
+      "description": "Etichetta mostrata nell'area amministrativa"
+    },
+    "value": {
+      "type": "string",
+      "description": "Valore modificabile"
+    },
+    "group": {
+      "type": "string",
+      "enum": [
+        "brand",
+        "contatti",
+        "social",
+        "legale"
+      ],
+      "enumColors": [
+        "green",
+        "blue",
+        "purple",
+        "gray"
+      ],
+      "default": "brand"
+    },
+    "hint": {
+      "type": "string",
+      "description": "Suggerimento per il compilatore"
+    }
+  },
+  "required": [
+    "key"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome commerciale del prodotto"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Identificatore URL"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "schede",
+        "confezioni",
+        "kit",
+        "accessori"
+      ],
+      "enumColors": [
+        "green",
+        "blue",
+        "purple",
+        "yellow"
+      ],
+      "description": "Categoria merceologica"
+    },
+    "short_description": {
+      "type": "string",
+      "description": "Descrizione breve per il catalogo"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descrizione estesa"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Formato / unit\u00e0 di vendita"
+    },
+    "price": {
+      "type": "number",
+      "description": "Prezzo in euro (lasciare vuoto se non pubblicato)"
+    },
+    "price_note": {
+      "type": "string",
+      "description": "Nota sul prezzo (es. IVA inclusa)"
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "in_preparazione",
+        "disponibile",
+        "su_ordine",
+        "esaurito"
+      ],
+      "enumColors": [
+        "gray",
+        "green",
+        "yellow",
+        "red"
+      ],
+      "default": "in_preparazione",
+      "description": "Stato di disponibilit\u00e0"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Immagine principale"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Caratteristiche principali"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

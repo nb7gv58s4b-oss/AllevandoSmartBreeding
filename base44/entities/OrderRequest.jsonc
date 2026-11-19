@@ -1,0 +1,91 @@
+{
+  "name": "OrderRequest",
+  "type": "object",
+  "properties": {
+    "reference": {
+      "type": "string",
+      "description": "Codice di riferimento della richiesta"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "aviary_name": {
+      "type": "string",
+      "description": "Nome dell'allevamento"
+    },
+    "country": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "nuova",
+        "in_lavorazione",
+        "evasa",
+        "archiviata"
+      ],
+      "enumColors": [
+        "blue",
+        "yellow",
+        "green",
+        "gray"
+      ],
+      "default": "nuova"
+    },
+    "privacy_consent": {
+      "type": "boolean"
+    },
+    "newsletter_consent": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "customer_name",
+    "customer_email",
+    "items"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
