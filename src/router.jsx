@@ -1,3 +1,4 @@
+
 import { createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen.ts";
 import { DefaultCatchBoundary } from "@/components/DefaultCatchBoundary";
@@ -9,6 +10,7 @@ export function getRouter() {
 
   return createRouter({
     routeTree,
+    basepath: "/AllevandoSmartBreeding",
     context: { queryClient },
     defaultPreload: "intent",
     defaultPreloadStaleTime: 0,
