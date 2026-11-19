@@ -18,7 +18,7 @@ export default function ProductCard({ product }) {
         className="block overflow-hidden bg-ivory">
         
         {product.image_url ?
-        <Image src="https://media.base44.com/images/public/6afbe902735418e3d0251319/17ad19f8d_generated_image.png"
+        <Image src={product.image_url}
 
         alt={product.name}
         className="aspect-[4/3] w-full transition-transform duration-500 group-hover:scale-[1.02]" /> :

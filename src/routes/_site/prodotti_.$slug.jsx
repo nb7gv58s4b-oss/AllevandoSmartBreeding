@@ -1,32 +1,15 @@
+
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, ChevronRight, Nfc, ShieldCheck, Recycle, Sparkles } from "lucide-react";
 import ProductPurchase from "@/components/shop/ProductPurchase";
+import { Image } from "@/components/ui/image";
+import { PRODUCTS } from "@/data/products";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-
-const product = {
-  id: "scheda-nfc",
-  name: "Scheda di cova intelligente NFC",
-  slug: "scheda-nfc",
-  unit: "Tecnologia NFC",
-  description:
-    "La scheda di cova intelligente ALLEVANDO Smart Breeding™ permette di collegare la scheda fisica alla gestione digitale della covata, mantenendo le informazioni ordinate e facilmente consultabili.",
-  short_description:
-    "Scheda di cova intelligente con tecnologia NFC.",
-  features: [
-    "Tecnologia NFC integrata",
-    "Consultazione tramite smartphone compatibile",
-    "Gestione digitale delle informazioni",
-    "Pensata per l'allevamento ornitologico",
-  ],
-  price: null,
-  price_note: "Prezzi in fase di definizione",
-  availability: "in_preparazione",
-};
 
 const USE_STEPS = [
   "Associa la scheda alla coppia di riproduttori: il tag NFC viene collegato al foglio digitale.",
@@ -63,11 +46,10 @@ const FEATURE_ICONS = [Nfc, ShieldCheck, Recycle, Sparkles];
 export const Route = createFileRoute("/_site/prodotti_/$slug")({
   head: () => ({
     meta: [
-      { title: "Scheda di cova intelligente NFC | ALLEVANDO Smart Breeding™" },
+      { title: "Prodotti | ALLEVANDO Smart Breeding™" },
       {
         name: "description",
-        content:
-          "Scheda di cova intelligente ALLEVANDO Smart Breeding™ con tecnologia NFC.",
+        content: "Scopri i prodotti ALLEVANDO Smart Breeding™ per l'allevamento ornitologico.",
       },
     ],
   }),
@@ -76,6 +58,30 @@ export const Route = createFileRoute("/_site/prodotti_/$slug")({
 
 function ProductDetailPage() {
   const router = useRouter();
+  const { slug } = Route.useParams();
+
+  const product = PRODUCTS.find(
+    (item) => item.slug === slug && item.active
+  );
+
+  if (!product) {
+    return (
+      <section className="bg-ivory">
+        <div className="wrap py-20 text-center">
+          <h1 className="font-heading text-3xl text-deep">Prodotto non trovato</h1>
+          <p className="mt-4 text-muted-foreground">
+            Il prodotto richiesto non è disponibile.
+          </p>
+          <Link
+            to="/prodotti"
+            className="mt-7 inline-flex rounded-full bg-forest px-6 py-3 text-xs uppercase tracking-wider text-ivory"
+          >
+            Torna al catalogo
+          </Link>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
@@ -93,7 +99,15 @@ function ProductDetailPage() {
         <div className="wrap grid gap-10 py-12 lg:grid-cols-2 lg:gap-16 lg:py-20">
           <div>
             <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-deep/10 bg-ivory">
-              <Nfc className="h-24 w-24 text-forest/40" strokeWidth={1} />
+              {product.image_url ? (
+                <Image
+                  src={product.image_url}
+                  alt={product.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Nfc className="h-24 w-24 text-forest/40" strokeWidth={1} />
+              )}
             </div>
             <div className="mt-4 grid grid-cols-3 gap-3">
               {FEATURE_ICONS.slice(0, 3).map((Icon, index) => (
@@ -108,7 +122,9 @@ function ProductDetailPage() {
           </div>
 
           <div>
-            <p className="eyebrow text-terracotta">Smart Breeding™ · {product.unit}</p>
+            <p className="eyebrow text-terracotta">
+              Smart Breeding™ · {product.unit}
+            </p>
             <h1 className="mt-4 font-heading text-[clamp(2.1rem,4.6vw,3.5rem)] font-medium leading-[1.02] text-deep">
               {product.name}
             </h1>
@@ -118,7 +134,10 @@ function ProductDetailPage() {
 
             <ul className="mt-7 grid gap-2.5 sm:grid-cols-2">
               {product.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2.5 text-[14px] text-deep/80">
+                <li
+                  key={feature}
+                  className="flex items-start gap-2.5 text-[14px] text-deep/80"
+                >
                   <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta" />
                   {feature}
                 </li>
