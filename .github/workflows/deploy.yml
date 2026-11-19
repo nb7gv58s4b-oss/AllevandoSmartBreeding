@@ -1,0 +1,52 @@
+
+name: Deploy ALLEVANDO Smart Breeding
+
+on:
+  push:
+    branches:
+      - versione-statica
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Scarica il progetto
+        uses: actions/checkout@v4
+
+      - name: Configura Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installa dipendenze
+        run: npm ci
+
+      - name: Configura GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Compila il sito
+        run: npm run build
+
+      - name: Prepara i file
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Pubblica il sito
+        id: deployment
+        uses: actions/deploy-pages@v4
