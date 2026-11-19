@@ -1,11 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import PageHeader from "@/components/site/PageHeader";
-import ProductCard from "@/components/shop/ProductCard";
-import { listProducts } from "@/lib/server-fns";
 
 export const Route = createFileRoute("/_site/prodotti")({
-  loader: async () => await listProducts(),
   head: () => ({
     meta: [
       { title: "Schede di cova intelligenti NFC | Catalogo ALLEVANDO Smart Breeding™" },
@@ -25,8 +22,6 @@ export const Route = createFileRoute("/_site/prodotti")({
 });
 
 function ProductsPage() {
-  const products = Route.useLoaderData();
-
   return (
     <>
       <PageHeader
@@ -45,27 +40,19 @@ function ProductsPage() {
             </p>
           </div>
 
-          {products.length === 0 ? (
-            <div className="card-sheet p-10 text-center">
-              <p className="font-heading text-2xl text-deep">Catalogo in aggiornamento</p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Scrivici per conoscere i formati in preparazione.
-              </p>
-              <Link
-                to="/contatti"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory"
-              >
-                Contattaci
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
+          <div className="card-sheet p-10 text-center">
+            <p className="font-heading text-2xl text-deep">Catalogo in aggiornamento</p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Scrivici per conoscere i formati in preparazione.
+            </p>
+            <Link
+              to="/contatti"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-forest px-5 py-3 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory"
+            >
+              Contattaci
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
       </section>
     </>

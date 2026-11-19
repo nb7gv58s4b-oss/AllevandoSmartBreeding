@@ -1,94 +1,80 @@
-import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, ChevronRight, Nfc, Recycle, ShieldCheck, Sparkles } from "lucide-react";
-import { Image } from "@/components/ui/image";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { ArrowLeft, ChevronRight, Nfc, ShieldCheck, Recycle, Sparkles } from "lucide-react";
 import ProductPurchase from "@/components/shop/ProductPurchase";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionTrigger } from
-"@/components/ui/accordion";
-import { getProductBySlug } from "@/lib/server-fns";
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const product = {
+  id: "scheda-nfc",
+  name: "Scheda di cova intelligente NFC",
+  slug: "scheda-nfc",
+  unit: "Tecnologia NFC",
+  description:
+    "La scheda di cova intelligente ALLEVANDO Smart Breeding™ permette di collegare la scheda fisica alla gestione digitale della covata, mantenendo le informazioni ordinate e facilmente consultabili.",
+  short_description:
+    "Scheda di cova intelligente con tecnologia NFC.",
+  features: [
+    "Tecnologia NFC integrata",
+    "Consultazione tramite smartphone compatibile",
+    "Gestione digitale delle informazioni",
+    "Pensata per l'allevamento ornitologico",
+  ],
+  price: null,
+  price_note: "Prezzi in fase di definizione",
+  availability: "in_preparazione",
+};
 
 const USE_STEPS = [
-"Associa la scheda alla coppia di riproduttori: il tag NFC viene collegato al foglio digitale.",
-"Appendi la scheda alla gabbia o al box, dove serve durante la stagione.",
-"Avvicina lo smartphone alla scheda per aprire i dati della covata.",
-"Aggiorna deposizioni, schiuse e note: la scheda resta, i dati si aggiornano."];
-
+  "Associa la scheda alla coppia di riproduttori: il tag NFC viene collegato al foglio digitale.",
+  "Appendi la scheda alla gabbia o al box, dove serve durante la stagione.",
+  "Avvicina lo smartphone alla scheda per aprire i dati della covata.",
+  "Aggiorna deposizioni, schiuse e note: la scheda resta, i dati si aggiornano.",
+];
 
 const FAQ = [
-{
-  q: "Serve un'app da installare?",
-  a: "No. Basta uno smartphone compatibile con la tecnologia NFC: avvicinandolo alla scheda si apre il foglio digitale della coppia."
-},
-{
-  q: "La scheda è riutilizzabile?",
-  a: "Sì. Quando cambia la coppia o inizia una nuova stagione riproduttiva, aggiorni le informazioni associate alla scheda: non serve sostituirla."
-},
-{
-  q: "Su quali specie si può usare?",
-  a: "Su tutti i tipi di allevamento ornitologico: canarini, fringillidi, esotici, psittacidi e altre specie. Il metodo è lo stesso, cambiano i dati che registri."
-},
-{
-  q: "I dati sono personalizzati con il mio marchio?",
-  a: "Il modello digitale è personalizzato con il marchio ALLEVANDO e prevede l'integrazione del marchio dell'allevatore."
-},
-{
-  q: "Posso ordinare adesso?",
-  a: "Le prime schede sono in preparazione. Inviando una richiesta entri nella lista di coloro che verranno aggiornati per primi su disponibilità e formati."
-}];
-
+  {
+    q: "Serve un'app da installare?",
+    a: "No. Basta uno smartphone compatibile con la tecnologia NFC: avvicinandolo alla scheda si apre il foglio digitale della coppia.",
+  },
+  {
+    q: "La scheda è riutilizzabile?",
+    a: "Sì. Quando cambia la coppia o inizia una nuova stagione riproduttiva, aggiorni le informazioni associate alla scheda: non serve sostituirla.",
+  },
+  {
+    q: "Su quali specie si può usare?",
+    a: "Su tutti i tipi di allevamento ornitologico: canarini, fringillidi, esotici, psittacidi e altre specie.",
+  },
+  {
+    q: "I dati sono personalizzati con il mio marchio?",
+    a: "Il modello digitale è personalizzato con il marchio ALLEVANDO e prevede l'integrazione del marchio dell'allevatore.",
+  },
+  {
+    q: "Posso ordinare adesso?",
+    a: "Le prime schede sono in preparazione. Inviando una richiesta puoi ricevere aggiornamenti su disponibilità e formati.",
+  },
+];
 
 const FEATURE_ICONS = [Nfc, ShieldCheck, Recycle, Sparkles];
 
 export const Route = createFileRoute("/_site/prodotti_/$slug")({
-  loader: async ({ params }) => {
-    const product = await getProductBySlug({ data: { slug: params.slug } });
-    if (!product) throw notFound();
-    return product;
-  },
-  head: ({ loaderData }) => ({
+  head: () => ({
     meta: [
-    { title: `${loaderData?.name ?? "Prodotto"} | ALLEVANDO Smart Breeding™` },
-    {
-      name: "description",
-      content:
-      loaderData?.short_description ||
-      "Scheda di cova intelligente ALLEVANDO Smart Breeding™ con tecnologia NFC."
-    },
-    { property: "og:title", content: loaderData?.name ?? "ALLEVANDO Smart Breeding™" },
-    { property: "og:type", content: "product" }],
-
-    scripts: loaderData ?
-    [
-    {
-      type: "application/ld+json",
-      children: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Product",
-        name: loaderData.name,
-        description: loaderData.short_description || loaderData.description,
-        brand: { "@type": "Brand", name: "ALLEVANDO Smart Breeding" },
-        category: "Schede di cova intelligenti per allevamento ornitologico",
-        offers: {
-          "@type": "Offer",
-          priceCurrency: "EUR",
-          availability:
-          loaderData.availability === "disponibile" ?
-          "https://schema.org/InStock" :
-          "https://schema.org/PreOrder"
-        }
-      })
-    }] :
-
-    []
+      { title: "Scheda di cova intelligente NFC | ALLEVANDO Smart Breeding™" },
+      {
+        name: "description",
+        content:
+          "Scheda di cova intelligente ALLEVANDO Smart Breeding™ con tecnologia NFC.",
+      },
+    ],
   }),
-  component: ProductDetailPage
+  component: ProductDetailPage,
 });
 
 function ProductDetailPage() {
-  const product = Route.useLoaderData();
   const router = useRouter();
 
   return (
@@ -106,26 +92,18 @@ function ProductDetailPage() {
       <section className="bg-white">
         <div className="wrap grid gap-10 py-12 lg:grid-cols-2 lg:gap-16 lg:py-20">
           <div>
-            <div className="overflow-hidden rounded-2xl border border-deep/10 bg-ivory">
-              {product.image_url ?
-              <Image src="https://media.base44.com/images/public/6afbe902735418e3d0251319/551b794de_breeder_kit_10_schede.png"
-
-              alt={product.name}
-              className="aspect-square w-full rounded-none" /> :
-
-
-              <div className="aspect-square w-full" />
-              }
+            <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-deep/10 bg-ivory">
+              <Nfc className="h-24 w-24 text-forest/40" strokeWidth={1} />
             </div>
             <div className="mt-4 grid grid-cols-3 gap-3">
-              {FEATURE_ICONS.slice(0, 3).map((Icon, index) =>
-              <div
-                key={index}
-                className="flex items-center justify-center rounded-xl border border-deep/10 bg-ivory py-4">
-                
+              {FEATURE_ICONS.slice(0, 3).map((Icon, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-center rounded-xl border border-deep/10 bg-ivory py-4"
+                >
                   <Icon className="h-5 w-5 text-forest" strokeWidth={1.5} />
                 </div>
-              )}
+              ))}
             </div>
           </div>
 
@@ -135,19 +113,17 @@ function ProductDetailPage() {
               {product.name}
             </h1>
             <p className="mt-5 text-[16px] leading-[1.75] text-muted-foreground">
-              {product.description || product.short_description}
+              {product.description}
             </p>
 
-            {product.features?.length > 0 &&
             <ul className="mt-7 grid gap-2.5 sm:grid-cols-2">
-                {product.features.map((feature) =>
-              <li key={feature} className="flex items-start gap-2.5 text-[14px] text-deep/80">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta" />
-                    {feature}
-                  </li>
-              )}
-              </ul>
-            }
+              {product.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-2.5 text-[14px] text-deep/80">
+                  <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-terracotta" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
 
             <div className="mt-8">
               <ProductPurchase product={product} />
@@ -170,12 +146,12 @@ function ProductDetailPage() {
               </p>
             </div>
             <ol className="divide-y divide-deep/10 border-y border-deep/10">
-              {USE_STEPS.map((step, index) =>
-              <li key={step} className="flex gap-5 py-5">
+              {USE_STEPS.map((step, index) => (
+                <li key={step} className="flex gap-5 py-5">
                   <span className="font-heading text-xl text-forest/50">0{index + 1}</span>
                   <p className="text-[15px] leading-relaxed text-deep/80">{step}</p>
                 </li>
-              )}
+              ))}
             </ol>
           </div>
         </div>
@@ -190,8 +166,8 @@ function ProductDetailPage() {
             </h2>
           </div>
           <Accordion type="single" collapsible className="w-full">
-            {FAQ.map((item) =>
-            <AccordionItem key={item.q} value={item.q} className="border-deep/10">
+            {FAQ.map((item) => (
+              <AccordionItem key={item.q} value={item.q} className="border-deep/10">
                 <AccordionTrigger className="text-left font-body text-[15px] font-medium text-deep hover:no-underline">
                   {item.q}
                 </AccordionTrigger>
@@ -199,7 +175,7 @@ function ProductDetailPage() {
                   {item.a}
                 </AccordionContent>
               </AccordionItem>
-            )}
+            ))}
           </Accordion>
         </div>
       </section>
@@ -215,21 +191,21 @@ function ProductDetailPage() {
           <div className="flex flex-wrap gap-3">
             <Link
               to="/contatti"
-              className="rounded-full bg-ivory px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-deep transition hover:bg-white">
-              
+              className="rounded-full bg-ivory px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-deep transition hover:bg-white"
+            >
               Richiedi informazioni
             </Link>
             <button
               type="button"
               onClick={() => router.history.back()}
-              className="inline-flex items-center gap-2 rounded-full border border-ivory/40 px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory transition hover:bg-ivory/10">
-              
+              className="inline-flex items-center gap-2 rounded-full border border-ivory/40 px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory transition hover:bg-ivory/10"
+            >
               <ArrowLeft className="h-4 w-4" />
               Indietro
             </button>
           </div>
         </div>
       </section>
-    </>);
-
+    </>
+  );
 }

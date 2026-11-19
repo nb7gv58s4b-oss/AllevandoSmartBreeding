@@ -1,9 +1,10 @@
+
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, Mail, Instagram, Facebook, MapPin } from "lucide-react";
 import PageHeader from "@/components/site/PageHeader";
-import { useSiteContent } from "@/components/site/SiteContentContext";
-import { submitContact } from "@/lib/server-fns";
+
+const CONTACT_EMAIL = "info@allevandosmartbreeding.it";
 
 export const Route = createFileRoute("/_site/contatti")({
   head: () => ({
@@ -21,7 +22,6 @@ export const Route = createFileRoute("/_site/contatti")({
 });
 
 function ContactPage() {
-  const { get } = useSiteContent();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -29,28 +29,34 @@ function ContactPage() {
     message: "",
     privacy_consent: false,
   });
-  const [error, setError] = useState("");
-  const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
   const update = (field) => (event) => {
-    const value = event.target.type === "checkbox" ? event.target.checked : event.target.value;
+    const value =
+      event.target.type === "checkbox"
+        ? event.target.checked
+        : event.target.value;
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    setError("");
-    setSending(true);
-    try {
-      await submitContact({ data: form });
-      setSent(true);
-      setForm({ name: "", email: "", subject: "", message: "", privacy_consent: false });
-    } catch {
-      setError("Non è stato possibile inviare il messaggio. Controlla i dati e riprova.");
-    } finally {
-      setSending(false);
-    }
+
+    if (!form.privacy_consent) return;
+
+    const subject = form.subject || "Richiesta informazioni ALLEVANDO";
+    const body = [
+      `Nome: ${form.name}`,
+      `Email: ${form.email}`,
+      "",
+      "Messaggio:",
+      form.message,
+    ].join("\n");
+
+    window.location.href =
+      `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    setSent(true);
   };
 
   return (
@@ -103,24 +109,18 @@ function ContactPage() {
               </label>
             </div>
 
-            {error && (
-              <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] text-red-700">
-                {error}
-              </p>
-            )}
             {sent && (
               <p className="mt-4 flex items-start gap-2 rounded-xl border border-forest/25 bg-forest/5 px-4 py-3 text-[13px] text-forest">
                 <Check className="mt-0.5 h-4 w-4 shrink-0" />
-                Messaggio inviato. Ti risponderemo il prima possibile.
+                Si è aperta la tua app di posta con il messaggio già preparato. Controlla e premi Invia.
               </p>
             )}
 
             <button
               type="submit"
-              disabled={sending}
-              className="mt-6 w-full rounded-full bg-forest px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory transition hover:bg-deep disabled:opacity-60"
+              className="mt-6 w-full rounded-full bg-forest px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.14em] text-ivory transition hover:bg-deep"
             >
-              {sending ? "Invio in corso…" : "Invia messaggio"}
+              Prepara messaggio
             </button>
           </form>
 
@@ -130,23 +130,18 @@ function ContactPage() {
               <ul className="mt-4 space-y-4 text-[14px]">
                 <li className="flex items-start gap-3">
                   <Mail className="mt-0.5 h-4 w-4 text-terracotta" />
-                  <a
-                    href={`mailto:${get("contact_email", "info@allevando.it")}`}
-                    className="text-deep hover:text-forest"
-                  >
-                    {get("contact_email", "info@allevando.it")}
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="text-deep hover:text-forest">
+                    {CONTACT_EMAIL}
                   </a>
                 </li>
                 <li className="flex items-start gap-3">
                   <MapPin className="mt-0.5 h-4 w-4 text-terracotta" />
-                  <span className="text-deep/80">
-                    {get("contact_location", "Sede operativa da definire")}
-                  </span>
+                  <span className="text-deep/80">Contattaci per informazioni</span>
                 </li>
               </ul>
               <div className="mt-5 flex gap-2">
                 <a
-                  href={get("social_instagram", "https://www.instagram.com/")}
+                  href="https://www.instagram.com/allevandosmartbreeding/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Instagram"
@@ -155,7 +150,7 @@ function ContactPage() {
                   <Instagram className="h-4 w-4" />
                 </a>
                 <a
-                  href={get("social_facebook", "https://www.facebook.com/")}
+                  href="https://www.facebook.com/profile.php?id=61596574475169"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Facebook"
@@ -169,10 +164,7 @@ function ContactPage() {
             <div className="rounded-2xl border border-deep/10 bg-deep p-6 text-ivory">
               <p className="eyebrow text-ivory/55">Stato del progetto</p>
               <p className="mt-3 text-[14px] leading-relaxed text-ivory/80">
-                {get(
-                  "availability_note",
-                  "Le prime schede Smart Breeding sono in preparazione. Scrivici per entrare nella lista di aggiornamento.",
-                )}
+                Le prime schede Smart Breeding sono in preparazione. Scrivici per ricevere aggiornamenti su disponibilità e formati.
               </p>
             </div>
           </aside>

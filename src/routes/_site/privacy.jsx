@@ -1,6 +1,8 @@
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import PageHeader from "@/components/site/PageHeader";
-import { useSiteContent } from "@/components/site/SiteContentContext";
+
+const EMAIL = "info@allevandosmartbreeding.it";
 
 export const Route = createFileRoute("/_site/privacy")({
   head: () => ({
@@ -28,93 +30,138 @@ function Section({ title, children }) {
 }
 
 function PrivacyPage() {
-  const { get } = useSiteContent();
-  const company = get("legal_company", "");
-  const email = get("contact_email", "info@allevando.it");
-  const vat = get("legal_vat", "");
-
   return (
     <>
       <PageHeader
         eyebrow="Legale"
         title="Informativa privacy"
-        intro="Questa informativa descrive come vengono trattati i dati personali inviati tramite questo sito, ai sensi del Regolamento (UE) 2016/679 (GDPR)."
+        intro="Questa informativa descrive le modalità di trattamento dei dati personali in relazione alla navigazione e all'utilizzo del sito ALLEVANDO Smart Breeding™, ai sensi del Regolamento (UE) 2016/679 (GDPR)."
       />
 
       <section className="bg-ivory">
         <div className="wrap max-w-3xl py-14 lg:py-20">
           <Section title="1. Titolare del trattamento">
             <p>
-              Titolare del trattamento: {company || "ALLEVANDO Smart Breeding™ — dati del titolare da completare"}
-              {vat ? `, P. IVA ${vat}` : ""}. Per qualsiasi richiesta relativa ai dati personali è
-              possibile scrivere a{" "}
-              <a href={`mailto:${email}`} className="text-forest underline underline-offset-2">
-                {email}
+              Il titolare del trattamento è il soggetto responsabile del progetto
+              ALLEVANDO Smart Breeding™. I relativi dati identificativi e
+              l'indirizzo della sede dovranno essere indicati in questa sezione
+              prima della pubblicazione definitiva dell'informativa.
+            </p>
+            <p>
+              Per le richieste relative alla privacy è possibile scrivere a{" "}
+              <a
+                href={`mailto:${EMAIL}`}
+                className="text-forest underline underline-offset-2"
+              >
+                {EMAIL}
               </a>
               .
-            </p>
-            <p className="rounded-xl border border-terracotta/30 bg-terracotta/5 px-4 py-3 text-[13px] text-deep/80">
-              Nota per il gestore del sito: i dati societari (ragione sociale, indirizzo, P. IVA)
-              sono modificabili dall'area amministrativa alla voce “Contenuti”, senza inventare
-              informazioni non ancora disponibili.
             </p>
           </Section>
 
           <Section title="2. Quali dati raccogliamo">
             <p>
-              Raccogliamo esclusivamente i dati che ci invii volontariamente tramite il modulo di
-              contatto e il modulo di richiesta ordine: nome, indirizzo email, telefono (facoltativo),
-              nome dell'allevamento (facoltativo), paese (facoltativo) e il testo del messaggio.
+              I dati personali possono essere forniti volontariamente
+              dall'utente attraverso i moduli di contatto e di richiesta
+              informazioni o prodotti: nome, indirizzo email, numero di
+              telefono, nome dell'allevamento, paese e contenuto del messaggio,
+              secondo i campi effettivamente compilati.
             </p>
             <p>
-              Non raccogliamo dati particolari (categorie ex art. 9 GDPR) e non effettuiamo
-              profilazione pubblicitaria.
+              Il carrello può memorizzare temporaneamente nel browser i
+              prodotti selezionati e le relative quantità, tramite la
+              funzionalità di memoria locale del dispositivo.
+            </p>
+            <p>
+              Durante la navigazione possono inoltre essere trattati dati
+              tecnici necessari al funzionamento e alla sicurezza del sito,
+              secondo le modalità del servizio di hosting utilizzato.
             </p>
           </Section>
 
           <Section title="3. Finalità e base giuridica">
             <p>
-              I dati sono trattati per rispondere alle richieste di informazioni, gestire le
-              richieste di acquisto e fornire aggiornamenti sulle schede Smart Breeding. La base
-              giuridica è il consenso dell'interessato (art. 6.1.a GDPR) e, per le richieste
-              contrattuali, l'esecuzione di misure precontrattuali (art. 6.1.b GDPR).
+              I dati sono utilizzati per rispondere alle richieste di
+              informazioni, gestire le richieste relative ai prodotti e
+              svolgere le eventuali attività precontrattuali richieste
+              dall'utente.
+            </p>
+            <p>
+              La base giuridica è, a seconda dei casi, l'esecuzione di misure
+              precontrattuali adottate su richiesta dell'interessato
+              (art. 6, par. 1, lett. b GDPR) oppure il consenso, quando
+              effettivamente richiesto (art. 6, par. 1, lett. a GDPR).
             </p>
           </Section>
 
-          <Section title="4. Conservazione">
+          <Section title="4. Modalità e conservazione">
             <p>
-              I dati sono conservati per il tempo necessario a gestire la richiesta e, in caso di
-              interesse all'acquisto, fino alla conclusione del rapporto o alla revoca del consenso.
-              Puoi chiedere in ogni momento la cancellazione.
+              Attualmente i moduli del sito preparano un messaggio tramite
+              il programma di posta elettronica disponibile sul dispositivo
+              dell'utente. L'invio deve essere confermato dall'utente e non
+              avviene automaticamente dal sito.
+            </p>
+            <p>
+              I dati inseriti nei moduli non vengono quindi registrati
+              automaticamente in un archivio ordini o contatti del sito.
+              Una volta inviata l'email, il trattamento prosegue attraverso
+              i servizi di posta elettronica coinvolti.
+            </p>
+            <p>
+              I tempi di conservazione delle comunicazioni ricevute saranno
+              determinati in base alle finalità della richiesta e agli
+              eventuali obblighi di legge.
             </p>
           </Section>
 
           <Section title="5. Comunicazione a terzi">
             <p>
-              I dati non sono ceduti né venduti a terzi. Possono essere trattati da fornitori
-              tecnici (hosting, posta elettronica) in qualità di responsabili del trattamento,
-              secondo quanto previsto dall'art. 28 GDPR.
+              I dati possono essere trattati dai fornitori tecnici necessari
+              al funzionamento del sito e dai servizi di posta elettronica
+              utilizzati per ricevere e gestire le comunicazioni.
+            </p>
+            <p>
+              Tali soggetti operano secondo i rispettivi ruoli e le
+              condizioni applicabili in materia di protezione dei dati
+              personali. I dati non vengono venduti.
             </p>
           </Section>
 
           <Section title="6. I tuoi diritti">
             <p>
-              Hai diritto di accesso, rettifica, cancellazione, limitazione, opposizione e
-              portabilità dei dati, oltre al diritto di revocare il consenso in qualsiasi momento.
-              Puoi esercitarli scrivendo a{" "}
-              <a href={`mailto:${email}`} className="text-forest underline underline-offset-2">
-                {email}
+              Nei casi previsti dal GDPR, l'interessato può esercitare i
+              diritti di accesso, rettifica, cancellazione, limitazione
+              del trattamento, opposizione e portabilità dei dati.
+              Quando il trattamento si basa sul consenso, questo può
+              essere revocato in qualsiasi momento, senza pregiudicare
+              la liceità del trattamento precedente alla revoca.
+            </p>
+            <p>
+              Per esercitare i propri diritti è possibile scrivere a{" "}
+              <a
+                href={`mailto:${EMAIL}`}
+                className="text-forest underline underline-offset-2"
+              >
+                {EMAIL}
               </a>
-              . Hai inoltre diritto di proporre reclamo all'Autorità Garante per la protezione dei
-              dati personali.
+              . È inoltre possibile proporre reclamo al Garante per la
+              protezione dei dati personali.
             </p>
           </Section>
 
           <Section title="7. Cookie e memorizzazioni locali">
             <p>
-              Il sito non utilizza cookie di profilazione. Per i dettagli sulle memorizzazioni
-              tecniche utilizzate consulta la{" "}
-              <Link to="/cookie-policy" className="text-forest underline underline-offset-2">
+              Il sito può utilizzare memorizzazioni tecniche locali,
+              ad esempio per conservare temporaneamente il contenuto
+              del carrello nel browser.
+            </p>
+            <p>
+              Per informazioni sui cookie e sulle altre tecnologie
+              eventualmente utilizzate consulta la{" "}
+              <Link
+                to="/cookie-policy"
+                className="text-forest underline underline-offset-2"
+              >
                 Cookie Policy
               </Link>
               .
